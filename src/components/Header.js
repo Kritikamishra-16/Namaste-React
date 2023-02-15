@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const Title= ()=>(
     <a href="/">
    <img className='logo'
@@ -10,6 +12,8 @@ const Title= ()=>(
 
 //Default Export
 const Header=()=>{
+    //toggle login button
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     return (
         <div className='header'>
             <Title/>
@@ -21,6 +25,13 @@ const Header=()=>{
                     <li>Cart</li>
                 </ul>
             </div>
+            {
+                //JS Expressions & Statement
+                //only js expressions work over here
+                (isLoggedIn
+                    ?(<button onClick={()=>{setIsLoggedIn(false)}}>Logout</button> )
+                    : (<button onClick={()=>{setIsLoggedIn(true)}}>Login</button>) )
+            }
         </div>
     );
 };
