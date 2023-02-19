@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { Children } from 'react';
 import ReactDOM from 'react-dom/client';
 import Header from './components/Header';
 import Body from './components/Body';
 import Footer from './components/Footer';
+import About from './components/About';
+import Error from './components/Error';
+import Contact from './components/Contact';
+import RestaurantMenu from './components/RestaurantMenu';
+import { createBrowserRouter , RouterProvider, Outlet } from 'react-router-dom';
 
 /**
             Header
@@ -26,12 +31,51 @@ const AppLayout= ()=>{
     return ( 
         <>
             <Header/>
-            <Body/>
+            {/**Sometimes we have to load several components according to our routes (it is a kind of conditional routing) */}
+            {/**If we want to create nested routes we need to create a Outlet-- here we want our header and footer components te be always there*/}
+            {/** Outlet ->It is like a placeholder component, It will change according to our route-> It will render according to our router config*/}
+            <Outlet/>
             <Footer/>   
         </>
     )
 }
 
+//Router Configuration
+const appRouter= createBrowserRouter([
+    //this is the place where we define what will happen(what component we will load) if we hit '/path' url
+    {
+        //default path
+        path: "/",
+        element: <AppLayout/>,
+        errorElement: <Error/>, //in case or any error or random url
+        //All these childrens will go into the outlet according to the route
+        children :[
+            {
+                path: '/',
+                element: <Body/>
+            },
+            {
+                path: '/about',
+                element: <About/>
+            },
+            {
+                path: "/contact",
+                element: <Contact/>
+            },
+            //Dynamic Segments | Dynamic Routing
+            {
+                path:"/restaurant/:id",
+                element: <RestaurantMenu/>
+            }
+        ]
+    },
+    
+])
+
+
 const root=ReactDOM.createRoot(document.getElementById("root"));
 
-root.render(<AppLayout/>);
+//RouterProvider is a component which helps us to provide this appRouter to our app
+
+//now the root will render according the given router configuration
+root.render(<RouterProvider router={appRouter} />);

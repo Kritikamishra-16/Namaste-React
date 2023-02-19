@@ -1,8 +1,8 @@
-import { restaurantList } from "../config.js";
 import RestaurantCard  from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer.js";
-
+import { Link } from "react-router-dom";
+ 
 function filterData(searchText,restaurants)
 {
   const filterData= restaurants.filter((restaurant)=> restaurant?.data?.name?.toLowerCase()?.includes(searchText.toLowerCase()));
@@ -11,16 +11,11 @@ function filterData(searchText,restaurants)
 
 
 
-const Body=()=>{
+const Body=()=>{ 
     const [searchText, setSearchText] =useState();
     const [filteredRestaurants, setFilteredRestaurants] =useState([]);
     const [allRestaurants, setAllRestaurants] =useState([]);
-    
-    //this callback function will not called immediately ,but whenever useEffect wants to call it based on dependency array
-    
-    // [searchText]=called once after initial render + everytime after rerender (when my searchText is updated)
-    //empty dependency array []=>if it is not dependent on anything it will be called just once after initial render
-    
+   
     useEffect(()=>{
       //API call here ->otherwise after every re-render api calls are made which is very bad practice
       getRestaurants();
@@ -38,23 +33,19 @@ const Body=()=>{
       //this readable stream needs to be get converted into json object so that we canread it
       const json= await data.json();
       
-      //optional chaining
+      //optional chaining (?.)
       setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-      //for the first time render FilteredRestaurants should not be empty otherwise .map function will break 
+      //for the first time render (without first search button click) FilteredRestaurants should not be empty otherwise .map function will break 
       setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
     }
-
-
-    //Conditional Rendering
-    //if restaurant is empty-> load shimmer UI
-    //if restaurant has data-> load actual data UI
 
     //Not render component(Early Return)
     if(!allRestaurants)
     return null; 
-  
-    // if(filteredRestaurants?.length==0)
-    // return <h1>No Restaurant match yor filter</h1>
+
+    //Conditional Rendering
+    //if restaurant is empty-> load shimmer UI
+    //if restaurant has data-> load actual data UI
 
     return (allRestaurants?.length=== 0)? <Shimmer/> :(
       <> 
@@ -83,8 +74,10 @@ const Body=()=>{
         <div className='restaurant-list'>
            {
             //add logic for NO RESTAURANT FOUND HERE
+             filteredRestaurants?.length==0 ?
+             <h2>No items matches your search</h2> :
              filteredRestaurants.map((restaurant)=>{
-                return <RestaurantCard {...restaurant.data} key={restaurant.data.id}/>;
+                return <Link to={"/restaurant/"+restaurant.data.id}  key={restaurant.data.id}><RestaurantCard {...restaurant.data}/></Link>;
              })
            }
         </div>
