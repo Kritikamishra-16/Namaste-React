@@ -22,8 +22,7 @@ class About extends React.Component{
                 </p>
                 {/**Only one children -:it will complete to lifecycle of chid */}
                 <ProfileClassComponent name={"First Child"}/>
-                <ProfileClassComponent name={"Second Child"}/>
-
+                
             </div>
         )
     }
