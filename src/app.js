@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import About from './components/About';
 import Error from './components/Error';
 import Contact from './components/Contact';
+import Profile from './components/Profile';
 import RestaurantMenu from './components/RestaurantMenu';
 import { createBrowserRouter , RouterProvider, Outlet } from 'react-router-dom';
 
@@ -50,13 +51,22 @@ const appRouter= createBrowserRouter([
         errorElement: <Error/>, //in case or any error or random url
         //All these childrens will go into the outlet according to the route
         children :[
+            //this sequence does not matter in this array of objects
             {
                 path: '/',
                 element: <Body/>
             },
             {
                 path: '/about',
-                element: <About/>
+                element: <About/>,
+                children:[
+                    {
+                        // '/' means from the root 
+                        //  parentPath/{path} ==> localhost:1234/about/pofile
+                        path: "profile", //dont put '/profile' here bcz react will read that as ==>localhost:1234/profile
+                        element: <Profile/>
+                    }
+                ]
             },
             {
                 path: "/contact",

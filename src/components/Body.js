@@ -15,7 +15,12 @@ const Body=()=>{
     const [searchText, setSearchText] =useState();
     const [filteredRestaurants, setFilteredRestaurants] =useState([]);
     const [allRestaurants, setAllRestaurants] =useState([]);
-   
+    
+    //this callback function will not called immediately ,but whenever useEffect wants to call it based on dependency array
+    
+    // [searchText]=called once after initial render + everytime after rerender (when my searchText is updated)
+    //empty dependency array []=>if it is not dependent on anything it will be called just once after initial render
+    
     useEffect(()=>{
       //API call here ->otherwise after every re-render api calls are made which is very bad practice
       getRestaurants();
