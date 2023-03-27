@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Logo from "../assets/img/foodVilla.jpg"
 import {Link} from "react-router-dom"
+import useOnline from "../utils/useOnline";
 
 const Title= ()=>(
     <a href="/">
@@ -16,6 +17,11 @@ const Title= ()=>(
 const Header=()=>{
     //toggle login button
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const isOnline= useOnline();
+
+    //const [getLocalVariables, setLocalVariables]= useLocalStorage();
+    //const localStoranpge= useLocalStorage();
+
     return (
         <div className='header'>
             <Title/>
@@ -25,8 +31,10 @@ const Header=()=>{
                     <li><Link to='/about'>About</Link></li>
                     <li><Link to='/contact'>Contact</Link></li>
                     <li><Link to='/cart'>Cart</Link></li>
+                    <li><Link to='/instamart'>Instamart</Link></li>
                 </ul>
             </div>
+            <h1>{isOnline? "🟢":"🔴"}</h1>
             {
                 //JS Expressions & Statement
                 //only js expressions work over here

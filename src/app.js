@@ -1,14 +1,28 @@
-import React, { Children } from 'react';
+import React, { lazy , Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import Header from './components/Header';
 import Body from './components/Body';
 import Footer from './components/Footer';
-import About from './components/About';
 import Error from './components/Error';
 import Contact from './components/Contact';
 import Profile from './components/Profile';
 import RestaurantMenu from './components/RestaurantMenu';
 import { createBrowserRouter , RouterProvider, Outlet } from 'react-router-dom';
+import Shimmer from './components/Shimmer';
+
+
+//import Instamart from './components/Instamart';
+//we are lazy importing this Instamart component
+//lazy loading , dynamic bundling + 
+const Instamart= lazy(()=> import("./components/Instamart"));
+//Up on demand loading - upon render react will suspend the loading because the code is not there it came after some time dynamically but react was trying to render it before that 
+//We use <Suspense> to avoid this , this will make react wait to resolve the promise that lazy() function returns
+
+
+
+//lazy loading about
+const About= lazy(()=>import("./components/About"));
+
 
 /**
             Header
@@ -38,7 +52,7 @@ const AppLayout= ()=>{
             <Outlet/>
             <Footer/>   
         </>
-    )
+    ) 
 }
 
 //Router Configuration
@@ -58,7 +72,7 @@ const appRouter= createBrowserRouter([
             },
             {
                 path: '/about',
-                element: <About/>,
+                element: <Suspense fallback={<h1>Loading ...</h1>}><About/></Suspense>,
                 children:[
                     {
                         // '/' means from the root 
@@ -76,6 +90,14 @@ const appRouter= createBrowserRouter([
             {
                 path:"/restaurant/:id",
                 element: <RestaurantMenu/>
+            },
+            {
+                path:"/instamart",
+                element:(
+                    <Suspense fallback={<Shimmer/>}>
+                        <Instamart/>
+                    </Suspense>
+                ) 
             }
         ]
     },

@@ -2,13 +2,8 @@ import RestaurantCard  from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer.js";
 import { Link } from "react-router-dom";
- 
-function filterData(searchText,restaurants)
-{
-  const filterData= restaurants.filter((restaurant)=> restaurant?.data?.name?.toLowerCase()?.includes(searchText.toLowerCase()));
-  return filterData;
-}
-
+import { filterData } from "../utils/helper";
+import useOnline from "../utils/useOnline";
 
 
 const Body=()=>{ 
@@ -16,10 +11,6 @@ const Body=()=>{
     const [filteredRestaurants, setFilteredRestaurants] =useState([]);
     const [allRestaurants, setAllRestaurants] =useState([]);
     
-    //this callback function will not called immediately ,but whenever useEffect wants to call it based on dependency array
-    
-    // [searchText]=called once after initial render + everytime after rerender (when my searchText is updated)
-    //empty dependency array []=>if it is not dependent on anything it will be called just once after initial render
     
     useEffect(()=>{
       //API call here ->otherwise after every re-render api calls are made which is very bad practice
@@ -28,13 +19,12 @@ const Body=()=>{
     }, []); //callback function , dependency array
 
 
-    //our browswer does not allow us to make api call from our loacl host
+    //our browswer does not allow us  to make api call from our loacl host
     //CORS->we need to install cors pluginit lets you bypass the CORS error
     //Loading a website-> Shimmer UI 
-
     async function getRestaurants(){
       //return a readable stream 
-      const data= await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.4183505&lng=77.0758733&page_type=DESKTOP_WEB_LISTING");
+      const data= await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=25.4529334&lng=81.8348882&page_type=DESKTOP_WEB_LISTING");
       //this readable stream needs to be get converted into json object so that we canread it
       const json= await data.json();
       
@@ -44,13 +34,15 @@ const Body=()=>{
       setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
     }
 
+    //custom hook that returns whrther we are online or offline
+    const isonline=useOnline(); 
+    if(!isonline){
+      return <h1>🔴 Offline, Please check your internet connection</h1>
+    } 
+
     //Not render component(Early Return)
     if(!allRestaurants)
-    return null; 
-
-    //Conditional Rendering
-    //if restaurant is empty-> load shimmer UI
-    //if restaurant has data-> load actual data UI
+    return null;
 
     return (allRestaurants?.length=== 0)? <Shimmer/> :(
       <> 
