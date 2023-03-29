@@ -1,10 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**************************************** BEFORE TAILWIND CSS
 .header{
-    /*Flex is the value of css display . By using display flex in parent elements, child elements automatically align like columns or rows with auto width and auto height.*/
+    /*Flex is the value of css display . By using display flex in parent elements, child elements automatically align like columns or rows with auto width and auto height.
     display: flex;
     
     justify-content: space-between;
     
-    /*a margin is the space around an element's border, the margin property controls the space outside an element.*/
+    /*a margin is the space around an element's border, the margin property controls the space outside an element.
     margin: 10px;
 
     border: 1px solid black;
@@ -12,10 +17,10 @@
 .nav-items > ul{
     list-style-type: none;
     display: flex;
-}
+} 
 
 .nav-items > ul> li{
-    /* while padding is the space between an element's border and the element's content,and the padding property controls the space inside an element. */
+    /* while padding is the space between an element's border and the element's content,and the padding property controls the space inside an element. 
     padding: 10px;
 }
 
@@ -31,7 +36,7 @@
 }
 
 .card > img {
-    /*it will take the full width(100%) of the card*/
+    /*it will take the full width(100%) of the card
     width: 100%;
 }
 
@@ -41,7 +46,7 @@
 }
 
 
-/*-----------------------------Shimmer Cards CSS-----------------------*/
+/*-----------------------------Shimmer Cards CSS-----------------------
 .shimmer-card{
     height: 200px;
     width: 200px;
@@ -71,3 +76,6 @@
   .menu{
     display: flex;
   }
+
+
+  *************************************/

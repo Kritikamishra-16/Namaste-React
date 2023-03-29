@@ -46,10 +46,10 @@ const Body=()=>{
 
     return (allRestaurants?.length=== 0)? <Shimmer/> :(
       <> 
-        <div className="search-container">
+        <div className="search-container p-5 bg-pink-50 my-2">
           <input
             type="text"
-            className="search-input"
+            className="search-input focus:bg-gray-300 p-2 m-2"
             placeholder="Search"
             value={searchText} 
             onChange={(e)=>{
@@ -57,7 +57,7 @@ const Body=()=>{
             }}
           ></input>
           <button
-            className="btn"
+            className="p-3 m-2 bg-purple-700 hover:bg-gray-400 text-white rounded-lg "
             onClick={(e)=>{
               //filter data based on searchText and original restaurantList not filtered list
               const data=filterData(searchText,allRestaurants);
@@ -68,13 +68,18 @@ const Body=()=>{
           >Search</button>
         </div>
 
-        <div className='restaurant-list'>
+        <div className='flex flex-wrap'>
            {
             //add logic for NO RESTAURANT FOUND HERE
              filteredRestaurants?.length==0 ?
              <h2>No items matches your search</h2> :
+
              filteredRestaurants.map((restaurant)=>{
-                return <Link to={"/restaurant/"+restaurant.data.id}  key={restaurant.data.id}><RestaurantCard {...restaurant.data}/></Link>;
+                return( 
+                <Link to={"/restaurant/"+restaurant.data.id} 
+                 key={restaurant.data.id}>
+                  <RestaurantCard {...restaurant.data}/></Link>
+                );
              })
            }
         </div>

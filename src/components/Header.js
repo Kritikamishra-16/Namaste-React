@@ -3,9 +3,10 @@ import Logo from "../assets/img/foodVilla.jpg"
 import {Link} from "react-router-dom"
 import useOnline from "../utils/useOnline";
 
+
 const Title= ()=>(
     <a href="/">
-   <img className='logo'
+   <img className="h-28 p-2"
    alt="logo" 
    src= {Logo}
    />
@@ -23,15 +24,15 @@ const Header=()=>{
     //const localStoranpge= useLocalStorage();
 
     return (
-        <div className='header'>
+        <div className='flex justify-between bg-pink-50 shadow-lg sm:bg-blue-200'>
             <Title/>
             <div className="nav-items"> 
-                <ul>
-                    <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/about'>About</Link></li>
-                    <li><Link to='/contact'>Contact</Link></li>
-                    <li><Link to='/cart'>Cart</Link></li>
-                    <li><Link to='/instamart'>Instamart</Link></li>
+                <ul className="flex py-10">
+                    <li className="px-2"><Link to='/'>Home</Link></li>
+                    <li className="px-2"><Link to='/about'>About</Link></li>
+                    <li className="px-2"><Link to='/contact'>Contact</Link></li>
+                    <li className="px-2"><Link to='/cart'>Cart</Link></li>
+                    <li className="px-2"><Link to='/instamart'>Instamart</Link></li>
                 </ul>
             </div>
             <h1>{isOnline? "🟢":"🔴"}</h1>
