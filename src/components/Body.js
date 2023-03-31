@@ -1,9 +1,10 @@
 import RestaurantCard  from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer.js";
 import { Link } from "react-router-dom";
 import { filterData } from "../utils/helper";
 import useOnline from "../utils/useOnline";
+import UserContext from "../utils/UserContext";
 
 
 const Body=()=>{ 
@@ -11,6 +12,8 @@ const Body=()=>{
     const [filteredRestaurants, setFilteredRestaurants] =useState([]);
     const [allRestaurants, setAllRestaurants] =useState([]);
     
+    //destructuring
+    const {user,setUser}=useContext(UserContext);
     
     useEffect(()=>{
       //API call here ->otherwise after every re-render api calls are made which is very bad practice
@@ -66,7 +69,36 @@ const Body=()=>{
 
             }}
           >Search</button>
+
+        <input
+         type="text"
+         placeholder="Search"
+         value={user.name}
+         onChange={(e)=>{
+          setUser({
+            ...user,
+            name: e.target.value,
+          })
+         }}
+        ></input>
+
+        <input
+         type="text"
+         placeholder="Search"
+         value={user.email}
+         onChange={(e)=>{
+          setUser({
+            ...user,
+            email: e.target.value,
+          })
+         }}
+        ></input>
+
         </div>
+
+
+        
+
 
         <div className='flex flex-wrap'>
            {

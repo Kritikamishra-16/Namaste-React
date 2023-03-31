@@ -1,4 +1,4 @@
-import React, { lazy , Suspense } from 'react';
+import React, { lazy , Suspense , useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import Header from './components/Header';
 import Body from './components/Body';
@@ -9,6 +9,10 @@ import Profile from './components/Profile';
 import RestaurantMenu from './components/RestaurantMenu';
 import { createBrowserRouter , RouterProvider, Outlet } from 'react-router-dom';
 import Shimmer from './components/Shimmer';
+import UserContext from './utils/UserContext';
+import { Provider } from 'react-redux';
+import store from './utils/store';
+import Cart from './components/Cart';
 
 
 //import Instamart from './components/Instamart';
@@ -17,7 +21,6 @@ import Shimmer from './components/Shimmer';
 const Instamart= lazy(()=> import("./components/Instamart"));
 //Up on demand loading - upon render react will suspend the loading because the code is not there it came after some time dynamically but react was trying to render it before that 
 //We use <Suspense> to avoid this , this will make react wait to resolve the promise that lazy() function returns
-
 
 
 //lazy loading about
@@ -43,15 +46,24 @@ const About= lazy(()=>import("./components/About"));
 */
 
 const AppLayout= ()=>{
+    const [user,setUser]= useState({
+        name:"Kritika Mishra",
+        email:"support@namastedev.com"
+    })
     return ( 
-        <>
+        <Provider store={store}>
+        {/**We can modify our UserContext with the real dynamic data from any API call using a provider */}
+            <UserContext.Provider value={ //here we are modifying the default value of user in UserContext with our dynamic user data
+                {
+                    user: user,
+                    setUser:setUser,
+                }
+            }>
             <Header/>
-            {/**Sometimes we have to load several components according to our routes (it is a kind of conditional routing) */}
-            {/**If we want to create nested routes we need to create a Outlet-- here we want our header and footer components te be always there*/}
-            {/** Outlet ->It is like a placeholder component, It will change according to our route-> It will render according to our router config*/}
             <Outlet/>
-            <Footer/>   
-        </>
+            <Footer/>  
+            </UserContext.Provider> 
+        </Provider>
     ) 
 }
 
@@ -98,6 +110,10 @@ const appRouter= createBrowserRouter([
                         <Instamart/>
                     </Suspense>
                 ) 
+            },
+            {
+                path:"/cart",
+                element: <Cart/>
             }
         ]
     },
