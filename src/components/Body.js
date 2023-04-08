@@ -54,12 +54,14 @@ const Body=()=>{
             type="text"
             className="search-input focus:bg-gray-300 p-2 m-2"
             placeholder="Search"
-            value={searchText} 
+            value={searchText}
+            data-testid="search-input" 
             onChange={(e)=>{
               setSearchText(e.target.value);
             }}
           ></input>
           <button
+            data-testid="search-btn"
             className="p-3 m-2 bg-purple-700 hover:bg-gray-400 text-white rounded-lg "
             onClick={(e)=>{
               //filter data based on searchText and original restaurantList not filtered list
@@ -100,7 +102,7 @@ const Body=()=>{
         
 
 
-        <div className='flex flex-wrap'>
+        <div className='flex flex-wrap' data-testid="res-List">
            {
             //add logic for NO RESTAURANT FOUND HERE
              filteredRestaurants?.length==0 ?
